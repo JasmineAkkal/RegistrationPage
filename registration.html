@@ -1,0 +1,703 @@
+<!DOCTYPE HTML>
+
+<html>
+<head>
+
+<style>
+/* Style all input fields */
+input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-top: 6px;
+    margin-bottom: 16px;
+}
+
+/* Style the submit button */
+input[type=submit] {
+    background-color: #4CAF50;
+    color: white;
+}
+
+/* Style the container for inputs */
+.container {
+    background-color: #f1f1f1;
+    padding: 20px;
+}
+
+/* The message box is shown when the user clicks on the password field */
+#message {
+    display:none;
+    background: #f1f1f1;
+    color: #000;
+    position: relative;
+    padding: 20px;
+    margin-top: 10px;
+}
+
+#message p {
+    padding: 10px 35px;
+    font-size: 18px;
+}
+
+/* Add a green text color and a checkmark when the requirements are right */
+.valid {
+    color: green;
+}
+
+.valid:before {
+    position: relative;
+    left: -35px;
+    content: "✔";
+}
+
+/* Add a red text color and an "x" when the requirements are wrong */
+.invalid {
+    color: red;
+}
+
+.invalid:before {
+    position: relative;
+    left: -35px;
+    content: "✖";
+}
+.secId{width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-top: 6px;
+    margin-bottom: 16px;}
+/* tooltip */
+
+
+.tool-tip{
+    border: solid;
+	    border-color: black !important;
+	color: #fff;
+	background-color: #fff;
+	text-shadow: none;
+	font-size: .8em;
+	visibility: hidden;
+	-webkit-border-radius: 7px; 
+	-moz-border-radius: 7px; 
+	-o-border-radius: 7px; 
+	border-radius: 7px;	
+	text-align: center;	
+	opacity: 0;
+	z-index: 999;
+	padding: 3px 8px;	
+	position: absolute;
+	cursor: default;
+	-webkit-transition: all 240ms ease-in-out;
+	-moz-transition: all 240ms ease-in-out;
+	-ms-transition: all 240ms ease-in-out;
+	-o-transition: all 240ms ease-in-out;
+	transition: all 240ms ease-in-out;	
+}
+
+.tool-tip,
+.tool-tip.top{
+	top: auto;
+	bottom: 114%;
+	left: 50%;		
+}
+
+.tool-tip.top:after,
+.tool-tip:after{
+	position: absolute;
+	bottom: -12px;
+	left: 50%;
+	margin-left: -7px;
+	content: ' ';
+	height: 0px;
+	width: 0px;
+	border: 6px solid transparent;
+    border-top-color: rgba( 0, 0, 0, .7);	
+}
+
+/* default heights, width and margin w/o Javscript */
+
+.tool-tip,
+.tool-tip.top{
+	width: 350px;
+	height: 230px;
+	margin-left: -43px;
+}
+
+/* tool tip position right */
+
+.tool-tip.right{
+	top: 50%;
+	right: auto;
+	left: 106%;
+	margin-top: -15px;
+	margin-right: auto;	
+	margin-left: auto;
+}
+
+.tool-tip.right:after{
+	left: -5px;
+	top: 50%;	
+	margin-top: -6px;
+	bottom: auto;
+	border-top-color: transparent;	
+    border-right-color: rgba( 0, 0, 0, .7);	
+}
+
+/* tool tip position left */
+
+.tool-tip.left{
+	top: 50%;
+	left: auto;
+	right: 105%;
+	margin-top: -15px;	
+	margin-left: auto;	
+}
+
+.tool-tip.left:after{
+	left: auto;
+	right: -12px;
+	top: 50%;
+	margin-top: -6px;
+	bottom: auto;
+	border-top-color: transparent;	
+    border-left-color: rgba( 0, 0, 0, .7);	
+}
+
+/* tool tip position bottom */
+
+.tool-tip.bottom{
+	top: 115%;
+	bottom: auto;
+	left: 50%;
+	margin-bottom: auto;	
+}
+
+.tool-tip.bottom:after{
+	position: absolute;
+	top: -12px;
+	left: 50%;
+	margin-left: -7px;
+	content: ' ';
+	height: 0px;
+	width: 0px;
+	border: 6px solid transparent;
+    border-top-color: transparent;	
+    border-bottom-color: rgba( 0, 0, 0, .6);	
+}
+
+/* tooltip on focus left and right */
+
+.on-focus .tool-tip.left,
+.on-focus .tool-tip.right{
+	margin-top: -19px;
+}
+
+/* on hover of element containing tooltip default*/
+
+*:not(.on-focus):hover > .tool-tip,
+.on-focus input:focus + .tool-tip{
+	visibility: visible;
+	opacity: 1;
+	-webkit-transition: all 240ms ease-in-out;
+	-moz-transition: all 240ms ease-in-out;
+	-ms-transition: all 240ms ease-in-out;
+	-o-transition: all 240ms ease-in-out;
+	transition: all 240ms ease-in-out;		
+}
+
+
+/* tool tip slide out */
+
+*:not(.on-focus) > .tool-tip.slideIn,
+.on-focus > .tool-tip{
+	display: block;
+}
+
+.on-focus > .tool-tip.slideIn{
+	z-index: -1;
+}
+
+.on-focus > input:focus + .tool-tip.slideIn{
+	z-index: 1;
+}
+
+/* bottom slideIn */
+
+*:not(.on-focus) > .tool-tip.slideIn.bottom,
+.on-focus > .tool-tip.slideIn.bottom{
+	top: 50%;	
+}
+
+*:not(.on-focus):hover > .tool-tip.slideIn.bottom,
+.on-focus > input:focus + .tool-tip.slideIn.bottom{
+	top: 115%;
+}	
+
+.on-focus > input:focus + .tool-tip.slideIn.bottom{
+	top: 100%;
+}
+
+/* top slideIn */
+
+*:not(.on-focus) > .tool-tip.slideIn,
+*:not(.on-focus) > .tool-tip.slideIn.top,
+.on-focus > .tool-tip.slideIn,
+.on-focus > .tool-tip.slideIn.top{
+	bottom: 50%;
+}
+
+*:not(.on-focus):hover > .tool-tip.slideIn,
+*:not(.on-focus):hover > .tool-tip.slideIn.top,
+.on-focus > input:focus + .tool-tip.slideIn,
+.on-focus > input:focus + .tool-tip.slideIn.top{
+	bottom: 110%;
+}	
+
+/* left slideIn */
+
+*:not(.on-focus) > .tool-tip.slideIn.left,
+.on-focus > .tool-tip.slideIn.left{
+	right: 50%;	
+}
+
+*:not(.on-focus):hover > .tool-tip.slideIn.left,
+.on-focus > input:focus + .tool-tip.slideIn.left{
+	right: 105%;		
+}
+
+/* right slideIn */
+
+*:not(.on-focus) > .tool-tip.slideIn.right,
+.on-focus > .tool-tip.slideIn.right{
+	left: 50%;		
+}
+
+*:not(.on-focus):hover > .tool-tip.slideIn.right,
+.on-focus > input:focus + .tool-tip.slideIn.right{
+	left: 105%;
+}
+
+
+
+.header {
+    border:2px solid red;
+}
+
+.header .image {
+    background: url("arrow-right_green.png") 
+                no-repeat;
+    width: 65px;
+    height: 65px;
+    border:2px solid green;
+}
+
+.header .text {
+    font: x-large sans-serif;
+    border:2px solid blue;
+}
+
+.header .image, 
+.header .text {
+    display: inline-block;
+    vertical-align: bottom;
+}
+</style>
+</head>
+
+
+<body>
+<div class="loader" id="loaderId"></div>
+<form action="/registration.html">
+<div id="ques3" style="text-align: left;width: 82%;border-width: 1px !important;border: solid;border-radius: 11px;margin:auto;">
+		<div>
+		
+		<h1 style="text-align: left;"><img src="arrow-right_green.png"style="margin-left: 1px;">Registration</h1>
+		</div>
+		<hr>
+		<table>
+				<tr>
+				<td style="text-align: right;width: 50%;">
+			  <label>User ID:</label>
+			  </td>
+			  <td style="text-align: left;width: 50%;">
+				<input type="text" id="userId">
+				</td>
+				</tr>
+				<tr>
+				<td style="text-align: right;width: 50%;">
+				<label>Password:</label>
+				</td>
+				<td style="text-align: left;width: 50%;">
+				
+					<div class="on-focus clearfix" style="position: relative; padding: 0px; margin: 10px auto; display: table; float: left">
+						<input class="tooltip" type="password" id="passId" name="psw" maxlength="20" required>
+						<div class="tool-tip slideIn right"style="padding: 0px;"><h3 style="color:#fff;background-color:#070707;margin: 0px;border-top-left-radius: 4px;border-top-right-radius: 4px;text-align: center;">Password must contain the following:</h3>
+						  <p id="letter" class="invalid">4 Alphabets</p>
+						  <p id="number" class="invalid">Atleast one Numeric character(0-9)<br> or Special character(!,#,$,%)</p>
+						  <p id="length" class="invalid">Minimum <b>7 characters</b></p>
+						  <p id="lengthMax" class="valid">Maximum <b>20 characters</b></p>
+						  <p id="noSpace" class="invalid">Must not contain spaces</p>
+						  <p id="notSameAsUserID" class="invalid">Password not be same as user ID</p>
+						 </div>
+					</div>
+			  </td>
+			 
+			  </tr>
+			  <tr>
+			  <td></td>
+			   <td>
+					<div style="width:210px;">
+						<div id="meter" style="background-color:red;width:10px;height:10px;"></div>
+						<div>
+							<span id="strength" style="float:right">Weak</span>
+							<span>Strength:</span>
+						</div>
+					</div>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: right;width: 33%;">
+				<label>Verify Password:</label>
+				</td>
+				<td style="text-align: left;width: 33%;">
+				<input type="password" id="verifyPass" required>
+				
+			  </td>
+					
+			  </tr>
+			  <tr>
+			  <td>&nbsp &nbsp</td>
+			  <td>
+				<span id="dontMatch" style="display:none;color:red;">Password and Confirm password don'nt match</span>
+				<span id="match" style="display:none;color: green;">Password and Confirm password match</span>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: right;width: 50%;">
+				<label>Email Address:</label>
+				</td>
+				<td style="text-align: left;width: 50%;">
+				<input type="email" name="emailaddress" id="email" required>
+			  </td>
+			  </tr>
+			  
+			  <tr>
+				<td style="text-align: right;width: 50%;">
+				<label>Verify Email Address:</label>
+				</td>
+				<td style="text-align: left;width: 50%;">
+				<input type="email" id="verifyEmail" required>
+				
+			  </td>
+			  </tr>
+			  <tr>
+			  <td>&nbsp &nbsp</td>
+			  <td>
+				<span id="dontMatchEmail" style="display:none;color:red;">Email and Verify Email password don'nt match</span>
+				<span id="matchEmail" style="display:none;color: green;">Email and Verify Email password match</span>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: right;width: 50%;">
+				<label>Security Question:</label>
+				</td>
+				<td style="text-align: left;width: 50%;">
+				<select name="secQues" class="secId">
+				  <option> </option>
+				  <option>Sum of 200+300 = </option>
+				  <option>Sum of 2+3 = </option>
+				  <option>Sum of 200+300 = </option>
+				  <option>23*100 = </option>
+				  <option>Capital of India?</option>
+				  <option>Capital of USA?</option>
+				</select>
+			  </td>
+			  </tr>
+			  
+			  <tr>
+				<td style="text-align: right;width: 50%;">
+				<label>Security Answer:</label>
+				</td>
+				<td style="text-align: left;width: 50%;">
+				<input type="text" name="ques4" id="sel42">
+			  </td>
+			  </tr>
+			  
+			  <tr>
+				<td style="text-align: right;width: 50%;">
+				<label>Security Question:</label>
+				</td>
+				<td style="text-align: left;width: 50%;">
+				<select name="secQues2" class="secId">
+				<option> </option>
+				  <option>Sum of 200+300 = </option>
+				  <option>Sum of 2+3 = </option>
+				  <option>Sum of 200+300 = </option>
+				  <option>23*100 = </option>
+				  <option>Capital of India?</option>
+				  <option>Capital of USA?</option>
+				</select>
+			  </td>
+			  </tr>
+			  <tr>
+				<td style="text-align: right;width: 50%;">
+				<label>Security Answer:</label>
+				</td>
+				<td style="text-align: left;width: 50%;">
+				<input type="text" name="ques4" id="sel42">
+			  </td>
+			  </tr>
+			  <tr>
+				<td style="text-align: right;width: 50%;">
+				<label>Mobile:</label>
+				</td>
+				<td style="text-align: left;width: 50%;">
+				<input type="text" name="ques4" id="sel42">
+			  </td>
+			  </tr>
+			  <tr>
+				<td style="text-align: right;width: 50%;">
+				<label>Address:</label>
+				</td>
+				<td style="text-align: left;width: 50%;">
+				<textarea class="secId"></textarea>
+			  </td>
+			  </tr>
+			  <tr>
+			  <td></td>
+			  <td><span>Areas you may be intrested in, please select one or more:</span></td>
+			  </tr>
+			  <tr>
+				<td style="text-align: right;width: 50%;">
+				<label>Address:</label>
+				</td>
+				<td style="text-align: left;width: 50%;">
+				<textarea class="secId"></textarea>
+			  </td>
+			  </tr>
+			  <br>
+				<tr>
+				
+					<td style="text-align: right;">
+					  <button type="loginBtn" style="border-radius: 7px;height: 28px;cursor: pointer;" onclick="submitQues(4)">Register</button>
+					</td>
+					<td style="text-align: left;">
+					  <button type="loginBtn" style="border-radius: 7px;height: 28px;cursor: pointer;" onclick="clearQues(4)">Cancel</button>
+					</td>
+					
+				</tr>
+		</table>
+	</div>
+	</form>
+	
+	
+</body>
+<script>
+var myInput = document.getElementById("passId");
+var email = document.getElementById("email");
+var letter = document.getElementById("letter");
+var capital = document.getElementById("capital");
+var number = document.getElementById("number");
+var length = document.getElementById("length");
+var lengthMax = document.getElementById("lengthMax");
+var noSpace = document.getElementById("noSpace");
+var notSameAsUserID = document.getElementById("notSameAsUserID");
+var userId = document.getElementById("userId");
+var alphaCount = 0;
+var verifyPass = document.getElementById("verifyPass");
+var verifyEmail = document.getElementById("verifyEmail");
+// When the user clicks on the password field, show the message box
+/*myInput.onfocus = function() {
+    document.getElementById("message").style.display = "block";
+}*/
+
+// When the user clicks outside of the password field, hide the message box
+/*18myInput.onblur = function() {
+    document.getElementById("message").style.display = "none";
+}*/
+
+// When the user starts to type something inside the password field
+verifyPass.onblur = function() {
+dontMatch.style.display = "none";
+match.style.display = "none";
+}
+verifyPass.onfocus = function() {
+if(myInput.value != verifyPass.value) { 
+	dontMatch.style.display = "block";
+	match.style.display = "none";
+  } else {
+  dontMatch.style.display = "none";
+	match.style.display = "block";
+  }
+}
+
+verifyEmail.onblur = function() {
+dontMatchEmail.style.display = "none";
+matchEmail.style.display = "none";
+}
+verifyEmail.onfocus = function() {
+console.log(email.value);
+console.log(verifyEmail.value);
+if(email.value != verifyEmail.value) { 
+	dontMatchEmail.style.display = "block";
+	matchEmail.style.display = "none";
+  } else {
+  dontMatchEmail.style.display = "none";
+	matchEmail.style.display = "block";
+  }
+}
+verifyPass.onkeyup = function() {
+
+   if(myInput.value != verifyPass.value) { 
+	dontMatch.style.display = "block";
+	match.style.display = "none";
+  } else {
+  dontMatch.style.display = "none";
+	match.style.display = "block";
+  }
+}
+myInput.onkeyup = function() {
+strengthMeter();
+  // Validate Alphabet letters
+  var alphabet = /[a-zA-Z]/g;
+  
+  if(myInput.value.match(alphabet)) {  
+	alphaCount = alphaCount+1;
+		if(alphaCount >= 4){
+			letter.classList.remove("invalid");
+			letter.classList.add("valid");
+			}
+  } else {
+    letter.classList.remove("valid");
+    letter.classList.add("invalid");
+  }
+  
+  // Validate capital letters
+  /*var upperCaseLetters = /[A-Z]/g;
+  if(myInput.value.match(upperCaseLetters)) {  
+    capital.classList.remove("invalid");
+    capital.classList.add("valid");
+  } else {
+    capital.classList.remove("valid");
+    capital.classList.add("invalid");
+  }*/
+
+  // Validate numbers
+  var numbers = /[0-9]/g;
+  var specialChar = /[!\#\$\%]/
+  // || myInput.value == "!" || myInput.value == "#" || myInput.value == "$" || myInput.value == "%"
+  if(myInput.value.match(numbers) || myInput.value.match(specialChar)) {  
+    number.classList.remove("invalid");
+    number.classList.add("valid");
+  } else {
+    number.classList.remove("valid");
+    number.classList.add("invalid");
+  }
+  
+  // Validate length
+  if(myInput.value.length >= 7) {
+    length.classList.remove("invalid");
+    length.classList.add("valid");
+  } else {
+    length.classList.remove("valid");
+    length.classList.add("invalid");
+	
+	
+  // Validate not same as user Id
+   if(myInput.value != userId.value) { 
+	 notSameAsUserID.classList.remove("invalid");
+	 notSameAsUserID.classList.add("valid");
+  } else {
+	notSameAsUserID.classList.remove("valid");
+    notSameAsUserID.classList.add("invalid");   
+  }
+  // Validate maximum length
+  if(myInput.value.length > 20) {
+    lengthMax.classList.remove("valid");
+    lengthMax.classList.add("invalid");
+    
+  } else {
+	lengthMax.classList.remove("invalid");
+    lengthMax.classList.add("valid");
+  }
+  
+  // Validate no Space
+  var inValid = /\s/;
+  
+   if(!myInput.value.match(inValid)) { 
+	
+   noSpace.classList.remove("invalid");
+    noSpace.classList.add("valid");
+    
+  } else {
+  noSpace.classList.remove("valid");
+    noSpace.classList.add("invalid");
+    
+  }
+  
+  
+  /*for(var i=0; i<myInput.value.length; i++){
+	if(myInput.value)
+  }
+  
+  if(myInput.value.length <= 20) {
+    lengthMax.classList.remove("invalid");
+    lengthMax.classList.add("valid");
+  } else {
+    lengthMax.classList.remove("valid");
+    lengthMax.classList.add("invalid");
+  }*/
+}
+}
+
+var $ = function(x) {return(document.getElementById(x));}
+
+function strengthMeter() {
+    var password = document.getElementById("passId").value;
+    var numEx = /\d/;
+    var lcEx = /[a-z]/;
+    var ucEx = /[A-Z]/;
+    var symbols = ['/', '@', '#', '%', '&', '.', '!', '*', '+', '?', '|','(', ')', '[', ']', '{', '}', '\\'];
+    var meterMult = 1;
+
+    for (var k = 0; k < password.length; k++) {
+        var pchar = password.charAt(k);
+        if(numEx.test(pchar)){
+            meterMult += 0.75;
+        }
+    
+        if(ucEx.test(pchar)){
+            meterMult += 1;
+        }
+    
+        if(lcEx.test(pchar)){
+            meterMult += 0.25;
+        }
+    }
+
+    for (var i = 0; i < symbols.length; i++) {
+        if(password.indexOf(symbols[i]) >= 0) {
+            meterMult += 1;
+        }
+    }
+
+    // assume that 100% is a meterMult of 15
+    var fullStrength = 15;
+    $("meter").style.width = ((Math.min(fullStrength, meterMult)/fullStrength )*100) + "%";
+
+    if(meterMult >= 12) {
+        document.getElementById("strength").innerHTML = "Strong";
+    }
+    else if(password.length >= 6) {
+        document.getElementById("strength").innerHTML = "Medium";
+    }
+    else {
+        document.getElementById("strength").innerHTML = "Weak";
+    }
+}
+</script>
+</html>
